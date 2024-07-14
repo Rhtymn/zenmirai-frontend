@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import LoginForm from '@/components/form/LoginForm.vue'
+import flower from '@/assets/img/flower.jpg'
 </script>
 
 <template>
   <main class="flex flex-col mx-4 my-4 gap-y-4 lg:flex-row-reverse items-center">
     <div id="img-container" class="w-full h-full lg:w-[50%]">
       <img
-        src="https://images.unsplash.com/photo-1700211436013-ee7494931b42?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        :src="flower"
         alt="flower paints"
         class="h-[180px] w-[100%] rounded-lg object-cover lg:h-[96vh]"
       />
