@@ -7,7 +7,7 @@ import { registerSchema, type RegisterFields } from '@/types/validators/auth'
 import { register } from '@/services/auth'
 import { BadRequest } from '@/exceptions/badRequest'
 import { ref } from 'vue'
-import { defaultFormState, type FormState } from '@/types'
+import { type FormState } from '@/types'
 import { useRouter } from 'vue-router'
 
 const { defineField, errors, handleSubmit, setValues } = useForm<RegisterFields>({
@@ -26,7 +26,12 @@ const resetValues = () => {
 
 const router = useRouter()
 
-const formState = ref<FormState>(defaultFormState)
+const formState = ref<FormState>({
+  error: '',
+  isError: false,
+  isSubmitting: false,
+  isSuccess: false
+})
 const resetFormState = () => {
   formState.value.error = ''
   formState.value.isError = false
