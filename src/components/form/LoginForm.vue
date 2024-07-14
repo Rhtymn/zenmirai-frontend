@@ -8,6 +8,9 @@ import { ref } from 'vue'
 import { type FormState } from '@/types'
 import { login } from '@/services/auth'
 import { BadRequest } from '@/exceptions/badRequest'
+import CookiesService from '@/utils/cookiesService'
+import { TokenKey } from '@/constants/cookie'
+import { useRouter } from 'vue-router'
 
 const { defineField, errors, handleSubmit, setValues } = useForm<LoginFields>({
   validationSchema: loginSchema
@@ -21,6 +24,8 @@ const resetValues = () => {
     false
   )
 }
+
+const router = useRouter()
 
 const formState = ref<FormState>({
   error: '',
@@ -38,7 +43,8 @@ const onSubmit = handleSubmit(async (values: LoginFields) => {
     const res = await login(values)
     formState.value.isSuccess = true
     resetValues()
-    alert(`Login success; token = ${res?.data?.token}`)
+    CookiesService.save(TokenKey, res?.data?.token ?? '')
+    router.replace('/')
   } catch (e) {
     formState.value.isError = true
     if (e instanceof BadRequest) {
