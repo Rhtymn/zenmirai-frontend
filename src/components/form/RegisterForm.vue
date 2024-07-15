@@ -2,7 +2,7 @@
 import CInput from '@/components/ui/CInput.vue'
 import CButton from '@/components/ui/CButton.vue'
 import FormNotification from '@/components/ui/FormNotification.vue'
-import { useForm } from 'vee-validate'
+import { useForm, useIsFormValid } from 'vee-validate'
 import { registerSchema, type RegisterFields } from '@/types/validators/auth'
 import { register } from '@/services/auth'
 import { BadRequest } from '@/exceptions/badRequest'
@@ -25,6 +25,7 @@ const resetValues = () => {
 }
 
 const router = useRouter()
+const isFormValid = useIsFormValid()
 
 const formState = ref<FormState>({
   error: '',
@@ -93,7 +94,12 @@ const onSubmit = handleSubmit(async (values: RegisterFields) => {
       :errors="errors.password"
       hint="password should contains lowercase & uppercase letter, symbol, and number"
     />
-    <CButton type="submit" class="cursor-pointer" :isLoading="formState.isSubmitting">
+    <CButton
+      :isDisabled="!isFormValid"
+      type="submit"
+      class="cursor-pointer"
+      :isLoading="formState.isSubmitting"
+    >
       Sign Up</CButton
     >
     <p class="self-end">
