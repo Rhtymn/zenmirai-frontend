@@ -2,7 +2,7 @@
 import CInput from '@/components/ui/CInput.vue'
 import CButton from '@/components/ui/CButton.vue'
 import FormNotification from '@/components/ui/FormNotification.vue'
-import { useForm } from 'vee-validate'
+import { useForm, useIsFormValid } from 'vee-validate'
 import { loginSchema, type LoginFields } from '@/types/validators/auth'
 import { ref } from 'vue'
 import { type FormState } from '@/types'
@@ -26,6 +26,7 @@ const resetValues = () => {
 }
 
 const router = useRouter()
+const isFormValid = useIsFormValid()
 
 const formState = ref<FormState>({
   error: '',
@@ -78,7 +79,11 @@ const onSubmit = handleSubmit(async (values: LoginFields) => {
       v-bind="passwordAttrs"
       :errors="errors.password"
     />
-    <CButton type="submit" class="cursor-pointer" :is-loading="formState.isSubmitting"
+    <CButton
+      :isDisabled="!isFormValid"
+      type="submit"
+      class="cursor-pointer"
+      :is-loading="formState.isSubmitting"
       >Sign In</CButton
     >
     <p class="self-end">
