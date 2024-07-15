@@ -16,8 +16,8 @@ export const registerSchema = yup.object({
     .min(6)
     .test(
       'whitespace-validation',
-      'name should not have leading or trailing white space',
-      leadingTrailingWhiteSpaceValidation
+      'username should not contain any white space',
+      notContainWhiteSpace
     ),
   password: yup
     .string()
@@ -37,7 +37,15 @@ export const registerSchema = yup.object({
 export type RegisterFields = yup.InferType<typeof registerSchema>
 
 export const loginSchema = yup.object({
-  username: yup.string().required('please fill username field').min(6),
+  username: yup
+    .string()
+    .required('please fill username field')
+    .min(6)
+    .test(
+      'whitespace-validation',
+      'username should not contain any white space',
+      notContainWhiteSpace
+    ),
   password: yup.string().required('please fill password field').min(8)
 })
 export type LoginFields = yup.InferType<typeof loginSchema>
